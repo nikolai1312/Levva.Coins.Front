@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import Api from "../../clients/api/api";
+import { Api } from "../../clients/api/api";
 
 import { RequestError } from "../../domain/request";
 import {
@@ -13,7 +13,7 @@ const createTransaction = async ({
     amount,
     type,
     categoryId,
-}: NewTransactionParams): Promise<void> => {
+}: NewTransactionParams) => {
     return Api.post({
         url: "/transaction",
         body: {
@@ -23,7 +23,7 @@ const createTransaction = async ({
             categoryId,
         },
     })
-        .then((response) => {
+        .then((response: any) => {
             return response.data;
         })
         .catch((err: AxiosError<RequestError>) => {
@@ -35,7 +35,7 @@ const getTransactions = async (): Promise<TransactionValues[]> => {
     return Api.get({
         url: "/transaction",
     })
-        .then((response) => {
+        .then((response: any) => {
             return response.data;
         })
         .catch((err: AxiosError<RequestError>) => {
@@ -43,7 +43,26 @@ const getTransactions = async (): Promise<TransactionValues[]> => {
         });
 };
 
+const searchTransactions = async (search: string | null) => {
+    if (search === null || search?.length <= 0) return getTransactions();
+
+    return Api.get({
+        url: "/transaction",
+        config: {
+            params: {
+                search
+            }
+        }
+    })
+        .then((response: any) => response.data)
+        .catch((error: AxiosError<RequestError>) => {
+            throw error.response?.data;
+        });
+};
+
+
 export const TransactionService = {
     createTransaction,
     getTransactions,
+    searchTransactions,
 };
