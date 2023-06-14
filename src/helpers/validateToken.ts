@@ -6,7 +6,7 @@ export function validateToken() {
 
     if (!user || !user.token) return false;
 
-    return jwt.verify(user.token.split(" ")[1], "levva-coins-secret", (error) => {
+    return jwt.verify(user.token, "levva-coins-secret", (error) => {
         return error ? false : true;
     });
 }
