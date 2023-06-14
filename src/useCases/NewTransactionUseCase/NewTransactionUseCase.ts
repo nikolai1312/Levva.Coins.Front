@@ -6,7 +6,7 @@ import {
     loadTransactionFail,
 } from "../../stores/TransactionStore/TransactionEvents";
 
-import { NewTransactionParams } from "../../domain/transaction";
+import { NewTransactionParams, TransactionValues } from "../../domain/transaction";
 import { RequestError } from "../../domain/request";
 
 const execute = async ({
@@ -14,7 +14,7 @@ const execute = async ({
     amount,
     type,
     categoryId,
-}: NewTransactionParams): Promise<void> => {
+}: NewTransactionParams) => {
 
     loadTransaction();
 
@@ -24,8 +24,8 @@ const execute = async ({
         type,
         categoryId,
     })
-        .then(() => {
-            loadCreateTransactionDone();
+        .then(([{ id, createdAt }]: TransactionValues) => {
+            loadCreateTransactionDone([{ id, description, amount, type, category: { id: categoryId, description }, createdAt, }]);
         })
         .catch(({ hasError, message }: RequestError) => {
             loadTransactionFail({ hasError, message });

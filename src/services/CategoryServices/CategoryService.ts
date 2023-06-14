@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import Api from "../../clients/api/api";
+import { Api } from "../../clients/api/api";
 
 import { CategoryValues, NewCategoryParams } from "../../domain/category";
 import { RequestError } from "../../domain/request";

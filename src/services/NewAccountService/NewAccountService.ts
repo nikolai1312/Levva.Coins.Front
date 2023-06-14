@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import Api from "../../clients/api/api"
+import { Api } from "../../clients/api/api"
 
 import { NewAccountParams } from "../../domain/newAccount";
 
