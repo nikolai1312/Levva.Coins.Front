@@ -2,23 +2,23 @@ import { TransactionValues } from "../../domain/transaction";
 import { RequestError } from "../../domain/request";
 
 import {
-    loadSearchTransaction,
-    loadSearchTransactionDone,
-    loadSearchTransactionFail,
-} from "../../stores/SearchTransactionStore/SearchTransactionEvents";
+    loadTransaction,
+    loadTransactionDone,
+    loadTransactionFail,
+} from "../../stores/TransactionStore/TransactionEvents";
 import { TransactionService } from "../../services/TransactionService/TransactionService";
 
-const execute = async (query: string | null): Promise<void> => {
-    loadSearchTransaction();
+const execute = async (query: string | null) => {
+    loadTransaction();
 
-    return TransactionService.searchTransactions(query)
+    return TransactionService.getTransactions()
         .then((transactions: TransactionValues[]) => {
-            const searchParams = transactions.filter((item => query === item.category.description ? item.category.description :
-                (query === item.description) ? item.description : null));
-            loadSearchTransactionDone(searchParams);
+            const transactionFilter = transactions.filter((item => query === item.category.description))
+            console.log(transactionFilter);
+            loadTransactionDone(transactionFilter);
         })
         .catch(({ hasError, message }: RequestError) => {
-            loadSearchTransactionFail({ hasError, message });
+            loadTransactionFail({ hasError, message });
         });
 };
 

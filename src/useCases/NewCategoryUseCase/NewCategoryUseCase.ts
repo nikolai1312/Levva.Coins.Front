@@ -6,7 +6,7 @@ import {
     loadCategoryFail,
 } from "../../stores/CategoryStore/CategoryEvents";
 
-import { NewCategoryParams } from "../../domain/category";
+import { CategoryValues, NewCategoryParams } from "../../domain/category";
 import { RequestError } from "../../domain/request";
 
 const execute = async ({ description }: NewCategoryParams): Promise<void> => {
@@ -15,8 +15,8 @@ const execute = async ({ description }: NewCategoryParams): Promise<void> => {
     return CategoryService.createCategory({
         description,
     })
-        .then(() => {
-            loadCreateCategoryDone();
+        .then(({ id, description }: CategoryValues) => {
+            loadCreateCategoryDone({ id, description });
         })
         .catch(({ hasError, message }: RequestError) => {
             loadCategoryFail({ hasError, message });

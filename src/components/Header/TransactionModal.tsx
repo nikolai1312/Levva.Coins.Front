@@ -68,7 +68,7 @@ export function TransactionModal() {
         GetCategoriesUseCase.execute();
     }, []);
 
-    async function handleCreateCategory({
+    async function handleCreateTransaction({
         description,
         amount,
         type,
@@ -90,7 +90,7 @@ export function TransactionModal() {
             closeModalRef={closeModalRef}
             trigger={<NewTransactionButton>Nova transacão</NewTransactionButton>}
         >
-            <Form onSubmit={handleSubmit(handleCreateCategory)}>
+            <Form onSubmit={handleSubmit(handleCreateTransaction)}>
                 <FormInput {...register("description")} placeholder="Descrição" />
                 {errors.description && (
                     <FormError>{errors.description.message}</FormError>
@@ -107,11 +107,11 @@ export function TransactionModal() {
                 {errors.amount && <FormError>{errors.amount.message}</FormError>}
 
                 <FormSelect {...register("categoryId")}>
-                    <option value="" selected disabled hidden>
+                    <option defaultValue="" disabled hidden>
                         Categoria
                     </option>
                     {categories.map((category) => (
-                        <option value={category.id}>{category.description}</option>
+                        <option key={category.id} value={category.id}>{category.description}</option>
                     ))}
                 </FormSelect>
                 {errors.categoryId && (
@@ -120,7 +120,7 @@ export function TransactionModal() {
 
                 <TransactionTypeContainer
                     {...register("type")}
-                    onChange={(event) => setValue("type", event.target.value)}
+                    onValueChange={(event) => setValue("type", event)}
                 >
                     <TransactionTypeButton variant="income" value="income">
                         <ArrowCircleUp size={24} />
