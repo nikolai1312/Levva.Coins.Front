@@ -1,9 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
-
 import { validateToken } from "./helpers/validateToken";
 
 export function ProtectedRoutes() {
-    const isAuthenticated = validateToken();
+    const isAuthenticaded = validateToken()
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
+    return isAuthenticaded ? <Outlet /> : <Navigate to="/login" />
 }
