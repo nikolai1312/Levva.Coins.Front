@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import SearchTransactionsUseCase from "../../useCases/SearchTransactionsUseCase/SearchTransactionsUseCase";
 
 interface formProps {
-    query: string;
+    search: string;
 }
 
 const formSchema = yup
@@ -16,17 +16,17 @@ const formSchema = yup
     })
 
 export function SearchForm() {
-    const { register, handleSubmit } = useForm<formProps>({
+    const { register, handleSubmit, reset } = useForm<formProps>({
         resolver: yupResolver(formSchema),
     });
 
-    function handleSearch({ query }: formProps) {
-        SearchTransactionsUseCase.execute(query);
+    function handleSearch({ search }: formProps) {
+        SearchTransactionsUseCase.execute({ search }).finally(() => reset());
     }
 
     return (
         <SearchFormContainer onSubmit={handleSubmit(handleSearch)}>
-            <input type="text" placeholder="Busque por transações" {...register("query")} />
+            <input type="text" placeholder="Busque por transações" {...register("search")} />
 
             <button type="submit">
                 <MagnifyingGlass size={20} />

@@ -1,4 +1,4 @@
-import { TransactionValues } from "../../domain/transaction";
+import { SearchTransactionParams, TransactionValues } from "../../domain/transaction";
 import { RequestError } from "../../domain/request";
 
 import {
@@ -8,14 +8,12 @@ import {
 } from "../../stores/TransactionStore/TransactionEvents";
 import { TransactionService } from "../../services/TransactionService/TransactionService";
 
-const execute = async (query: string | null) => {
+const execute = async ({ search }: SearchTransactionParams): Promise<void> => {
     loadTransaction();
 
-    return TransactionService.getTransactions()
+    return TransactionService.searchTransactions({ search })
         .then((transactions: TransactionValues[]) => {
-            const transactionFilter = transactions.filter((item => query === item.category.description))
-            console.log(transactionFilter);
-            loadTransactionDone(transactionFilter);
+            loadTransactionDone(transactions);
         })
         .catch(({ hasError, message }: RequestError) => {
             loadTransactionFail({ hasError, message });

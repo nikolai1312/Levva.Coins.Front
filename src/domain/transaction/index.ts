@@ -7,6 +7,10 @@ export interface NewTransactionParams {
     categoryId: string;
 }
 
+export interface SearchTransactionParams {
+    search: string;
+}
+
 export interface TransactionValues {
     id: string;
     description: string;

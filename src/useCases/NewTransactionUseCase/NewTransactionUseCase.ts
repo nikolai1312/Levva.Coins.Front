@@ -14,7 +14,7 @@ const execute = async ({
     amount,
     type,
     categoryId,
-}: NewTransactionParams): Promise<TransactionValues> => {
+}: NewTransactionParams): Promise<void> => {
 
     loadTransaction();
 
@@ -25,7 +25,7 @@ const execute = async ({
         categoryId,
     })
         .then((transaction: TransactionValues) => {
-            loadCreateTransactionDone([transaction]);
+            loadCreateTransactionDone(transaction);
         })
         .catch(({ hasError, message }: RequestError) => {
             loadTransactionFail({ hasError, message });

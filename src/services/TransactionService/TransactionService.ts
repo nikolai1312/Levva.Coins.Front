@@ -5,6 +5,7 @@ import { Api } from "../../clients/api/api";
 import { RequestError } from "../../domain/request";
 import {
     NewTransactionParams,
+    SearchTransactionParams,
     TransactionValues,
 } from "../../domain/transaction";
 
@@ -13,7 +14,7 @@ const createTransaction = async ({
     amount,
     type,
     categoryId,
-}: NewTransactionParams): Promise<TransactionValues> => {
+}: NewTransactionParams) => {
     return Api.post({
         url: "/Transaction/Create",
         body: {
@@ -43,11 +44,11 @@ const getTransactions = async (): Promise<TransactionValues[]> => {
         });
 };
 
-const searchTransactions = async (query: string | null) => {
-    if (query === null || query?.length <= 0) return getTransactions();
+const searchTransactions = async ({ search }: SearchTransactionParams): Promise<TransactionValues[]> => {
+    if (search === "") { return TransactionService.getTransactions() };
 
     return Api.get({
-        url: `/Transaction/${query}`,
+        url: `/Transaction/${search}`,
     })
         .then((response) => response.data)
         .catch((error: AxiosError<RequestError>) => {

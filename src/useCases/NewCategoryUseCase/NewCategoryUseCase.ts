@@ -9,7 +9,7 @@ import {
 import { CategoryValues, NewCategoryParams } from "../../domain/category";
 import { RequestError } from "../../domain/request";
 
-const execute = async ({ description }: NewCategoryParams): Promise<CategoryValues> => {
+const execute = async ({ description }: NewCategoryParams): Promise<void> => {
     loadCategory();
 
     return CategoryService.createCategory({
