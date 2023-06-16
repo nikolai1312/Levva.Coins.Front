@@ -13,8 +13,10 @@ const authenticateUser = async ({
     return Api.post({
         url: "/User",
         body: {
+            name: null,
             email,
             password,
+            token: null,
         },
     })
         .then((response) => {

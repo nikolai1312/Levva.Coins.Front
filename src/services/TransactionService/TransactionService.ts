@@ -47,7 +47,7 @@ const searchTransactions = async (query: string | null) => {
     if (query === null || query?.length <= 0) return getTransactions();
 
     return Api.get({
-        url: "/transaction",
+        url: "/Transaction",
         config: {
             params: {
                 query
