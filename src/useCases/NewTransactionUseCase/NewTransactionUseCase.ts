@@ -14,7 +14,7 @@ const execute = async ({
     amount,
     type,
     categoryId,
-}: NewTransactionParams) => {
+}: NewTransactionParams): Promise<TransactionValues> => {
 
     loadTransaction();
 

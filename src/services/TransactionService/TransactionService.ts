@@ -13,7 +13,7 @@ const createTransaction = async ({
     amount,
     type,
     categoryId,
-}: NewTransactionParams) => {
+}: NewTransactionParams): Promise<TransactionValues> => {
     return Api.post({
         url: "/Transaction/Create",
         body: {
@@ -47,12 +47,7 @@ const searchTransactions = async (query: string | null) => {
     if (query === null || query?.length <= 0) return getTransactions();
 
     return Api.get({
-        url: "/Transaction",
-        config: {
-            params: {
-                query
-            }
-        }
+        url: `/Transaction/${query}`,
     })
         .then((response) => response.data)
         .catch((error: AxiosError<RequestError>) => {

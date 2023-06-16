@@ -9,14 +9,14 @@ import {
 import { CategoryValues, NewCategoryParams } from "../../domain/category";
 import { RequestError } from "../../domain/request";
 
-const execute = async ({ description }: NewCategoryParams): Promise<void> => {
+const execute = async ({ description }: NewCategoryParams): Promise<CategoryValues> => {
     loadCategory();
 
     return CategoryService.createCategory({
         description,
     })
-        .then((category: CategoryValues) => {
-            loadCreateCategoryDone([category]);
+        .then(({ id }: CategoryValues) => {
+            loadCreateCategoryDone({ id, description });
         })
         .catch(({ hasError, message }: RequestError) => {
             loadCategoryFail({ hasError, message });

@@ -20,7 +20,7 @@ const CategoryStore = createStore<CategoryState>(initialState)
     .on(loadCreateCategoryDone, (state, data) => ({
         ...state,
         isLoading: false,
-        categories: [...data, ...state.categories],
+        categories: [data, ...state.categories],
         hasError: false,
         errorMessage: ""
     }))
